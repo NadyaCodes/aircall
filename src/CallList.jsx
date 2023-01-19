@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Call from "./Call.jsx";
+import Loading from "./Loading.jsx";
 
 export default function CallList() {
   const [allActivities, setAllActivities] = useState([]);
@@ -105,7 +106,7 @@ export default function CallList() {
       >
         Archived
       </button>
-      {loading === true && <div>Loading...</div>}
+      {loading === true && <Loading size="large" />}
       {error && <div>{error}</div>}
 
       {view === "Active" ? <ul>{allActive}</ul> : <ul>{allArchived}</ul>}

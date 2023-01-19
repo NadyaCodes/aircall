@@ -19,7 +19,7 @@ hr {
 .call {
   border: 1px solid black;
   border-radius: .2rem;
-  padding: 1rem;
+  padding: .6rem;
   display: flex;
   justify-content: space-between;
 }
@@ -36,11 +36,49 @@ hr {
   background-color: rgb(216, 216, 216);
 }
 
+.call-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
 .loading {
-  background-color: rgb(71, 80, 71);
+  background-color: rgb(162, 162, 162);
+}
+
+.loading-circle {
+  font-size: 2rem;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  animation: 1s rotate infinite linear
+}
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-initial {
+  margin-top: 7rem;
+  font-size: 3rem;
+}
+
+.loading-initial-circle {
+  font-size: 10rem;
+}
+
+.primary-direction {
+  font-size: 1rem;
+}
+
+.time {
+  font-size: 1rem;
 }
 
 .call-type {
-  margin-top: .3rem;
-  font-size: 1.5rem;
+  font-size: 1.8rem;
 }

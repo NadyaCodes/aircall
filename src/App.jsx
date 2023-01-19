@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { createRoot } from "react-dom/client";
+import { IconContext } from "react-icons";
 
 import Header from "./Header.jsx";
 import CallList from "./CallList.jsx";
@@ -9,8 +10,10 @@ import regeneratorRuntime from "regenerator-runtime";
 const App = () => {
   return (
     <div className="container">
-      <Header />
-      <CallList />
+      <IconContext.Provider value={{ className: "react-icons" }}>
+        <Header />
+        <CallList />
+      </IconContext.Provider>
     </div>
   );
 };

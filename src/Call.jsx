@@ -7,20 +7,26 @@ import {
   FiMic,
   FiArchive,
   FiRotateCcw,
+  FiMoreHorizontal,
+  FiMinus,
+  FiRotateCw,
 } from "react-icons/fi";
+import CallDetails from "./CallDetails.jsx";
+import Loading from "./Loading.jsx";
 
 export default function Call(props) {
   const [loading, setLoading] = useState("not-loading");
   const [error, setError] = useState(false);
+  const [showDetails, setShowDetails] = useState(false);
 
   const { callInfo, activities, setActivities, Url, dateTime } = props;
   const { id, direction, from, to, via, duration, is_archived, call_type } =
     callInfo;
 
-  // const archived = is_archived === true ? "archived" : "active";
+  const archived = is_archived === true ? "archived" : "active";
 
   const archive = async (id) => {
-    setLoading("loading");
+    setLoading("loading-block");
     if (is_archived === false) {
       fetch(Url + `activities/${id}`, {
         method: "PATCH",
@@ -93,7 +99,6 @@ export default function Call(props) {
   };
 
   const timeObj = formatTime(duration);
-  const callClass = `call ${direction} ${loading}`;
 
   const phoneIcon = (call) => {
     switch (call.call_type) {
@@ -113,50 +118,78 @@ export default function Call(props) {
     }
   };
 
+  const toggleDetails = () => {
+    if (showDetails === false) {
+      return setShowDetails(true);
+    }
+    return setShowDetails(false);
+  };
+
+  const formatUnknown = (info) => {
+    if (typeof info === "string" && info.toLowerCase().includes("unknown")) {
+      return "Unknown";
+    }
+    return info;
+  };
+
+  const callClass = `call ${direction} ${loading}`;
   return (
     <li key={id}>
-      {loading === true && <div>Loading...</div>}
       {error && <div>{error}</div>}
+
       <div className={callClass}>
-        <div className="call-type">{phoneIcon(callInfo)}</div>
-        <div className="call-to-from">
-          <div className="primary-direction">
-            {direction === "inbound" ? "From: " + from : "To: " + to}
+        {loading === "loading-block" ? (
+          <Loading size="small" />
+        ) : (
+          <div className="call-container">
+            <div className="call-type">{phoneIcon(callInfo)}</div>
+            <div className="call-to-from">
+              <div className="primary-direction">
+                {direction === "inbound"
+                  ? "From: " + formatUnknown(from)
+                  : "To: " + formatUnknown(to)}
+              </div>
+              <div className="secondary-direction">
+                {direction === "inbound"
+                  ? "To: " + formatUnknown(to)
+                  : "From: " + formatUnknown(from)}
+              </div>
+            </div>
+            <div className="call-time">
+              <div className="time">{dateTime.toLocaleTimeString()}</div>
+              <div>
+                {timeObj.hours > 0 && timeObj.hours + "h "}
+                {timeObj.minutes > 0 && timeObj.minutes + "m "}
+                {timeObj.seconds > 0 ? timeObj.seconds : 0}s
+              </div>
+            </div>
+            <div>
+              <button onClick={() => archive(id)}>
+                {is_archived === true ? <FiRotateCcw /> : <FiArchive />}
+              </button>
+              <button onClick={() => toggleDetails()}>
+                {showDetails === true ? <FiMinus /> : <FiMoreHorizontal />}
+              </button>
+            </div>
           </div>
-          <div className="secondary-direction">
-            {direction === "inbound" ? "To: " + to : "From: " + from}
-          </div>
-        </div>
-        <div className="call-times">
-          <div>{dateTime.toLocaleTimeString()}</div>
-          <div>
-            {timeObj.hours > 0 && timeObj.hours + "h "}
-            {timeObj.minutes > 0 && timeObj.minutes + "m "}
-            {timeObj.seconds > 0 ? timeObj.seconds : 0}s
-          </div>
-        </div>
-        <button onClick={() => archive(id)}>
-          {is_archived === true ? <FiRotateCcw /> : <FiArchive />}
-        </button>
+        )}
       </div>
-      {/* <div>Id: {id}</div> */}
-      {/* <div>Date: {dateTime.toLocaleDateString()}</div> */}
-      {/* <div>Time: {dateTime.toLocaleTimeString()}</div> */}
-      {/* <div>
-        Direction:{" "}
-        {direction === "direction-unknown" ? "Direction Unknown" : direction}
-      </div>
-      <div> From: {from === "caller-unknown" ? "Caller Unknown" : from}</div>
-      <div>To: {to === "caller-unknown" ? "Caller Unknown" : to}</div>
-      <div>Aircall Number: {via}</div> */}
-      {/* <div>
-        Duration: {timeObj.hours} hours; {timeObj.minutes} minutes;{" "}
-        {timeObj.seconds} seconds
-      </div> */}
-      {/* <div>Status: {archived}</div> */}
-      {/* <div>Type: {call_type}</div> */}
 
       <br />
+      {showDetails === true && (
+        <CallDetails
+          id={id}
+          direction={direction}
+          from={from}
+          to={to}
+          via={via}
+          archived={archived}
+          call_type={call_type}
+          length={timeObj}
+          dateTime={dateTime}
+          formatUnknown={formatUnknown}
+        />
+      )}
       <br />
     </li>
   );
