@@ -39,3 +39,8 @@ hr {
 .loading {
   background-color: rgb(71, 80, 71);
 }
+
+.call-type {
+  margin-top: .3rem;
+  font-size: 1.5rem;
+}

@@ -1,4 +1,13 @@
 import React, { useState } from "react";
+import {
+  FiPhoneMissed,
+  FiPhoneIncoming,
+  FiPhoneOutgoing,
+  FiPhone,
+  FiMic,
+  FiArchive,
+  FiRotateCcw,
+} from "react-icons/fi";
 
 export default function Call(props) {
   const [loading, setLoading] = useState("not-loading");
@@ -28,7 +37,8 @@ export default function Call(props) {
             setError(
               "Error: " +
                 response.status +
-                " There was an error - please try again"
+                " There was an error - please try again. Issue is with call id " +
+                id
             );
           } else {
             const newActivities = [...activities];
@@ -57,7 +67,8 @@ export default function Call(props) {
             setError(
               "Error: " +
                 response.status +
-                " There was an error - please try again"
+                " There was an error - please try again. Issue is with call id " +
+                id
             );
           } else {
             const newActivities = [...activities];
@@ -84,11 +95,30 @@ export default function Call(props) {
   const timeObj = formatTime(duration);
   const callClass = `call ${direction} ${loading}`;
 
+  const phoneIcon = (call) => {
+    switch (call.call_type) {
+      case "missed":
+        return <FiPhoneMissed />;
+      case "answered":
+        if (call.direction === "inbound") {
+          return <FiPhoneIncoming />;
+        }
+        if (call.direction === "outbound") {
+          return <FiPhoneOutgoing />;
+        } else return <FiPhone />;
+      case "voicemail":
+        return <FiMic />;
+      default:
+        return <FiPhone />;
+    }
+  };
+
   return (
     <li key={id}>
       {loading === true && <div>Loading...</div>}
       {error && <div>{error}</div>}
       <div className={callClass}>
+        <div className="call-type">{phoneIcon(callInfo)}</div>
         <div className="call-to-from">
           <div className="primary-direction">
             {direction === "inbound" ? "From: " + from : "To: " + to}
@@ -105,6 +135,9 @@ export default function Call(props) {
             {timeObj.seconds > 0 ? timeObj.seconds : 0}s
           </div>
         </div>
+        <button onClick={() => archive(id)}>
+          {is_archived === true ? <FiRotateCcw /> : <FiArchive />}
+        </button>
       </div>
       {/* <div>Id: {id}</div> */}
       {/* <div>Date: {dateTime.toLocaleDateString()}</div> */}
@@ -121,10 +154,8 @@ export default function Call(props) {
         {timeObj.seconds} seconds
       </div> */}
       {/* <div>Status: {archived}</div> */}
-      <div>Type: {call_type}</div>
-      <button onClick={() => archive(id)}>
-        {is_archived === true ? "Un-Archive" : "Archive"}
-      </button>
+      {/* <div>Type: {call_type}</div> */}
+
       <br />
       <br />
     </li>
