@@ -1,0 +1,10 @@
+hr {
+  color: black;
+  width: 50px;
+}
+
+.date {
+  display: flex;
+  justify-content: center;
+  margin-bottom: .5rem;
+}

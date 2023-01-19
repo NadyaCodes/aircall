@@ -4,20 +4,9 @@ export default function Call(props) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
-  const { callInfo, activities, setActivities, Url } = props;
-  const {
-    id,
-    created_at,
-    direction,
-    from,
-    to,
-    via,
-    duration,
-    is_archived,
-    call_type,
-  } = callInfo;
-
-  const dateTime = new Date(created_at);
+  const { callInfo, activities, setActivities, Url, dateTime } = props;
+  const { id, direction, from, to, via, duration, is_archived, call_type } =
+    callInfo;
 
   const archived = is_archived === true ? "archived" : "active";
 
@@ -87,8 +76,8 @@ export default function Call(props) {
     <li key={id}>
       {loading === true && <div>Loading...</div>}
       {error && <div>{error}</div>}
-      <div>Id: {id}</div>
-      <div>Date: {dateTime.toLocaleDateString()}</div>
+      {/* <div>Id: {id}</div> */}
+      {/* <div>Date: {dateTime.toLocaleDateString()}</div> */}
       <div>Time: {dateTime.toLocaleTimeString()}</div>
       <div>Direction: {direction}</div>
       <div> From: {from}</div>
