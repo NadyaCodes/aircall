@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 
 export default function Call(props) {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState("not-loading");
   const [error, setError] = useState(false);
 
   const { callInfo, activities, setActivities, Url, dateTime } = props;
   const { id, direction, from, to, via, duration, is_archived, call_type } =
     callInfo;
 
-  const archived = is_archived === true ? "archived" : "active";
+  // const archived = is_archived === true ? "archived" : "active";
 
   const archive = async (id) => {
-    setLoading(true);
+    setLoading("loading");
     if (is_archived === false) {
       fetch(Url + `activities/${id}`, {
         method: "PATCH",
@@ -23,7 +23,7 @@ export default function Call(props) {
         },
       })
         .then((response) => {
-          setLoading(false);
+          setLoading("not-loading");
           if (!response.ok) {
             setError(
               "Error: " +
@@ -39,7 +39,7 @@ export default function Call(props) {
         })
         .catch((err) => {
           setError(err);
-          setLoading(false);
+          setLoading("not-loading");
         });
     } else {
       fetch(Url + `activities/${id}`, {
@@ -72,21 +72,59 @@ export default function Call(props) {
         });
     }
   };
+
+  const formatTime = (time) => {
+    let hours = Math.floor(time / 3600);
+    time = time - hours * 3600;
+    let minutes = Math.floor(time / 60);
+    let seconds = time - minutes * 60;
+    return { hours, minutes, seconds };
+  };
+
+  const timeObj = formatTime(duration);
+  const callClass = `call ${direction} ${loading}`;
+
   return (
     <li key={id}>
       {loading === true && <div>Loading...</div>}
       {error && <div>{error}</div>}
+      <div className={callClass}>
+        <div className="call-to-from">
+          <div className="primary-direction">
+            {direction === "inbound" ? "From: " + from : "To: " + to}
+          </div>
+          <div className="secondary-direction">
+            {direction === "inbound" ? "To: " + to : "From: " + from}
+          </div>
+        </div>
+        <div className="call-times">
+          <div>{dateTime.toLocaleTimeString()}</div>
+          <div>
+            {timeObj.hours > 0 && timeObj.hours + "h "}
+            {timeObj.minutes > 0 && timeObj.minutes + "m "}
+            {timeObj.seconds > 0 ? timeObj.seconds : 0}s
+          </div>
+        </div>
+      </div>
       {/* <div>Id: {id}</div> */}
       {/* <div>Date: {dateTime.toLocaleDateString()}</div> */}
-      <div>Time: {dateTime.toLocaleTimeString()}</div>
-      <div>Direction: {direction}</div>
-      <div> From: {from}</div>
-      <div>To: {to}</div>
-      <div>Aircall Number: {via}</div>
-      <div>Duration: {duration} seconds</div>
-      <div>Status: {archived}</div>
+      {/* <div>Time: {dateTime.toLocaleTimeString()}</div> */}
+      {/* <div>
+        Direction:{" "}
+        {direction === "direction-unknown" ? "Direction Unknown" : direction}
+      </div>
+      <div> From: {from === "caller-unknown" ? "Caller Unknown" : from}</div>
+      <div>To: {to === "caller-unknown" ? "Caller Unknown" : to}</div>
+      <div>Aircall Number: {via}</div> */}
+      {/* <div>
+        Duration: {timeObj.hours} hours; {timeObj.minutes} minutes;{" "}
+        {timeObj.seconds} seconds
+      </div> */}
+      {/* <div>Status: {archived}</div> */}
       <div>Type: {call_type}</div>
-      <button onClick={() => archive(id)}>Archive</button>
+      <button onClick={() => archive(id)}>
+        {is_archived === true ? "Un-Archive" : "Archive"}
+      </button>
       <br />
       <br />
     </li>
