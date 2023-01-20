@@ -64,7 +64,7 @@ animation: 1s blink infinite linear
 
 @keyframes blink {
   0% {
-    opacity: 40%;
+    opacity: 30%;
   }
   20% {
     opacity: 90%;
@@ -75,7 +75,7 @@ animation: 1s blink infinite linear
 }
 @-webkit-keyframes blink {
   0% {
-    opacity: 40%;
+    opacity: 30%;
   }
   20% {
     opacity: 90%;

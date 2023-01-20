@@ -28,6 +28,7 @@ button {
 button:hover {
   transform: translate(.05rem, -.05rem);
   box-shadow: -.1rem .1rem .3rem .01rem;
+  background-color: rgba(104, 184, 94, 0.484);
 }
 
 .react-icons {

@@ -17,18 +17,48 @@ export default function CallDetails(props) {
     <div className="call-details">
       <h2>Call Details</h2>
       <hr />
-      <div>Id: {id}</div>
-      <div>Date: {dateTime.toLocaleDateString()}</div>
-      <div>Time: {dateTime.toLocaleTimeString()}</div>
-      <div>Direction: {formatUnknown(direction)}</div>
-      <div> From: {formatUnknown(from)}</div>
-      <div>To: {formatUnknown(to)}</div>
-      <div>Aircall Number: {via}</div>
-      <div>
-        Duration: {length.hours}h {length.minutes}m {length.seconds}s
-      </div>
-      <div>Archived Status: {archived}</div>
-      <div>Call Type: {call_type}</div>
+      <ul>
+        <li>
+          <span className="list-header">Date</span>
+          {dateTime.toLocaleDateString()}
+        </li>
+        <li className="alternate-li">
+          <span className="list-header">Time</span>
+          {dateTime.toLocaleTimeString()}
+        </li>
+        <li>
+          <span className="list-header">Direction</span>
+          {formatUnknown(direction)}
+        </li>
+        <li className="alternate-li">
+          <span className="list-header">From</span>
+          {formatUnknown(from)}
+        </li>
+        <li>
+          <span className="list-header">To</span>
+          {formatUnknown(to)}
+        </li>
+        <li className="alternate-li">
+          <span className="list-header">Aircall Number</span>
+          {via}
+        </li>
+        <li>
+          <span className="list-header">Duration</span>
+          {length.hours}h {length.minutes}m {length.seconds}s
+        </li>
+        <li className="alternate-li">
+          <span className="list-header">Archived Status </span>
+          {archived}
+        </li>
+        <li>
+          <span className="list-header">Call Type</span>
+          {call_type}
+        </li>
+        <li className="alternate-li">
+          <span className="list-header">Id</span>
+          {id}
+        </li>
+      </ul>
     </div>
   );
 }

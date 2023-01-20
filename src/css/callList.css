@@ -1,35 +1,41 @@
 hr {
-  color: black;
-  width: 50px;
+  background-color: rgb(42, 196, 31);
+  width: 60px;
+  height: 1px;
+  border: none;
 }
 
 
 .date {
   display: flex;
   justify-content: center;
-  margin-bottom: .5rem;
+  margin: 1rem;
 }
 
 
 .call {
   box-shadow: -.05rem 0.05rem .3rem .02rem #333333;
-  border-radius: .2rem;
+  border-radius: .2rem .2rem 0 0;
   padding: .6rem;
-  /* display: flex;
-  justify-content: space-between;
-  align-items: center; */
+  position: relative;
+  z-index: 2
+}
+
+.call:hover {
+  transform: translate(.05rem, -.05rem);
+  box-shadow: -.1rem .1rem .3rem .01rem;
 }
 
 .inbound {
-  background-color: rgb(217, 246, 216);
+  background-color: #f0f6eb;
 }
 
 .outbound {
-  background-color: rgb(158, 205, 157);
+  background-color: #bcdfbb;
 }
 
 .direction-unknown {
-  background-color: rgb(216, 216, 216);
+  background-color: #c8e6c7;
 }
 
 .call-container {

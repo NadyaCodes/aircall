@@ -179,8 +179,6 @@ export default function Call(props) {
           </div>
         )}
       </div>
-
-      <br />
       {showDetails === true && (
         <CallDetails
           id={id}
@@ -195,7 +193,6 @@ export default function Call(props) {
           formatUnknown={formatUnknown}
         />
       )}
-      <br />
     </li>
   );
 }
