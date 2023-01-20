@@ -53,7 +53,7 @@ export default function CallDetails(props) {
         </li>
         <li>
           <span className="list-header">Call Type</span>
-          {call_type}
+          {formatUnknown(call_type)}
         </li>
         <li className="alternate-li">
           <span className="list-header">Id</span>
