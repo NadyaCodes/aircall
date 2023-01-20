@@ -13,6 +13,7 @@ export default function CallDetails(props) {
     length,
     formatUnknown,
   } = props;
+
   return (
     <div className="call-details">
       <h2>Call Details</h2>

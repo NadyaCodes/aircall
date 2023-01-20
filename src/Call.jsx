@@ -1,23 +1,21 @@
 import React, { useState } from "react";
-import {
-  FiPhoneMissed,
-  FiPhoneIncoming,
-  FiPhoneOutgoing,
-  FiPhone,
-  FiMic,
-  FiArchive,
-  FiRotateCcw,
-  FiMoreHorizontal,
-  FiMinus,
-  FiRotateCw,
-} from "react-icons/fi";
-import { RiInboxUnarchiveFill } from "react-icons/ri";
 import CallDetails from "./CallDetails.jsx";
 import Loading from "./Loading.jsx";
+import {
+  formatUnknown,
+  formatTime,
+  phoneIcon,
+  toggleDetails,
+} from "./helpers.js";
+
+import { FiArchive, FiMoreHorizontal, FiMinus } from "react-icons/fi";
+import { RiInboxUnarchiveFill } from "react-icons/ri";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Call(props) {
   const [loading, setLoading] = useState("not-loading");
-  const [error, setError] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
 
   const { callInfo, activities, setActivities, Url, dateTime } = props;
@@ -41,11 +39,8 @@ export default function Call(props) {
         .then((response) => {
           setLoading("not-loading");
           if (!response.ok) {
-            setError(
-              "Error: " +
-                response.status +
-                " There was an error - please try again. Issue is with call id " +
-                id
+            toast.error(
+              "Error re-setting archive status - please try again or contact Help@WhatShouldIDo.com"
             );
           } else {
             const newActivities = [...activities];
@@ -55,7 +50,9 @@ export default function Call(props) {
           }
         })
         .catch((err) => {
-          setError(err);
+          toast.error(
+            "Error re-setting archive status - please try again or contact Help@WhatShouldIDo.com"
+          );
           setLoading("not-loading");
         });
     } else {
@@ -71,11 +68,8 @@ export default function Call(props) {
         .then((response) => {
           setLoading(false);
           if (!response.ok) {
-            setError(
-              "Error: " +
-                response.status +
-                " There was an error - please try again. Issue is with call id " +
-                id
+            toast.error(
+              "Error re-setting archive status - please try again or contact Help@WhatShouldIDo.com"
             );
           } else {
             const newActivities = [...activities];
@@ -85,60 +79,20 @@ export default function Call(props) {
           }
         })
         .catch((err) => {
-          setError(err);
+          toast.error(
+            "Error re-setting archive status - please try again or contact Help@WhatShouldIDo.com"
+          );
           setLoading(false);
         });
     }
   };
 
-  const formatTime = (time) => {
-    let hours = Math.floor(time / 3600);
-    time = time - hours * 3600;
-    let minutes = Math.floor(time / 60);
-    let seconds = time - minutes * 60;
-    return { hours, minutes, seconds };
-  };
-
   const timeObj = formatTime(duration);
 
-  const phoneIcon = (call) => {
-    switch (call.call_type) {
-      case "missed":
-        return <FiPhoneMissed />;
-      case "answered":
-        if (call.direction === "inbound") {
-          return <FiPhoneIncoming />;
-        }
-        if (call.direction === "outbound") {
-          return <FiPhoneOutgoing />;
-        } else return <FiPhone />;
-      case "voicemail":
-        return <FiMic />;
-      default:
-        return <FiPhone />;
-    }
-  };
-
-  const toggleDetails = () => {
-    if (showDetails === false) {
-      return setShowDetails(true);
-    }
-    return setShowDetails(false);
-  };
-
-  const formatUnknown = (info) => {
-    if (typeof info === "string" && info.toLowerCase().includes("unknown")) {
-      return "Unknown";
-    }
-    return info;
-  };
-
-  const callClass = `call ${direction} ${loading}`;
   return (
     <li key={id}>
-      {error && <div>{error}</div>}
-
-      <div className={callClass}>
+      <ToastContainer autoClose={4000} />
+      <div className={`call ${direction} ${loading}`}>
         {loading === "loading-block" ? (
           <Loading size="small" />
         ) : (
@@ -172,7 +126,9 @@ export default function Call(props) {
                   <FiArchive />
                 )}
               </button>
-              <button onClick={() => toggleDetails()}>
+              <button
+                onClick={() => toggleDetails(showDetails, setShowDetails)}
+              >
                 {showDetails === true ? <FiMinus /> : <FiMoreHorizontal />}
               </button>
             </div>

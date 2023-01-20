@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import Call from "./Call.jsx";
 import Loading from "./Loading.jsx";
 import Menu from "./Menu.jsx";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function CallList() {
   const [allActivities, setAllActivities] = useState([]);
-  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [view, setView] = useState("Active");
 
@@ -22,7 +23,9 @@ export default function CallList() {
           setAllActivities([...data.reverse()]);
         })
         .catch((err) => {
-          setError(err);
+          toast.error(
+            "Error - please try again or contact Help@WhatShouldIDo.com"
+          );
           setLoading(false);
         });
     };
@@ -91,18 +94,18 @@ export default function CallList() {
   };
 
   const allArchived = makeActivityList(allActivities, true);
-  const allActive = makeActivityList(allActivities, false);
+  const allActives = makeActivityList(allActivities, false);
 
   return (
     <div className="container-view">
-      {error && <div>{error}</div>}
+      <ToastContainer autoClose={4000} />
 
       {loading === true ? (
         <Loading size="large" />
       ) : (
         <div>
           <Menu setView={setView} view={view} />
-          {view === "Active" ? <ul>{allActive}</ul> : <ul>{allArchived}</ul>}
+          {view === "Active" ? <ul>{allActives}</ul> : <ul>{allArchived}</ul>}
         </div>
       )}
     </div>

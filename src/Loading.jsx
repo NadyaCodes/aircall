@@ -1,5 +1,4 @@
 import React from "react";
-import { FiRotateCw } from "react-icons/fi";
 
 import LoadingElement from "./LoadingElement.jsx";
 

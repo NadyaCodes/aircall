@@ -40,6 +40,10 @@ color: #333333;
 }
   
 
+.loading-circle-large {
+  font-size: 8rem;
+  margin: 2rem;
+}
 
 
 .loading-circle {
@@ -83,9 +87,4 @@ animation: 1s blink infinite linear
   100% {
     opacity: 100%;
   }
-}
-
-.loading-circle-large {
-  font-size: 8rem;
-  margin: 2rem;
 }
