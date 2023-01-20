@@ -15,7 +15,8 @@ export default function CallDetails(props) {
   } = props;
   return (
     <div className="call-details">
-      <h2>Details</h2>
+      <h2>Call Details</h2>
+      <hr />
       <div>Id: {id}</div>
       <div>Date: {dateTime.toLocaleDateString()}</div>
       <div>Time: {dateTime.toLocaleTimeString()}</div>

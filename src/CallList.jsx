@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Call from "./Call.jsx";
 import Loading from "./Loading.jsx";
+import Menu from "./Menu.jsx";
 
 export default function CallList() {
   const [allActivities, setAllActivities] = useState([]);
@@ -94,22 +95,16 @@ export default function CallList() {
 
   return (
     <div className="container-view">
-      <button
-        onClick={() => setView("Active")}
-        className={view === "Active" ? "selected" : ""}
-      >
-        Active
-      </button>
-      <button
-        onClick={() => setView("Archived")}
-        className={view === "Archived" ? "selected" : ""}
-      >
-        Archived
-      </button>
-      {loading === true && <Loading size="large" />}
       {error && <div>{error}</div>}
 
-      {view === "Active" ? <ul>{allActive}</ul> : <ul>{allArchived}</ul>}
+      {loading === true ? (
+        <Loading size="large" />
+      ) : (
+        <div>
+          <Menu setView={setView} view={view} />
+          {view === "Active" ? <ul>{allActive}</ul> : <ul>{allArchived}</ul>}
+        </div>
+      )}
     </div>
   );
 }

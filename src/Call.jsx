@@ -11,6 +11,7 @@ import {
   FiMinus,
   FiRotateCw,
 } from "react-icons/fi";
+import { RiInboxUnarchiveFill } from "react-icons/ri";
 import CallDetails from "./CallDetails.jsx";
 import Loading from "./Loading.jsx";
 
@@ -165,7 +166,11 @@ export default function Call(props) {
             </div>
             <div>
               <button onClick={() => archive(id)}>
-                {is_archived === true ? <FiRotateCcw /> : <FiArchive />}
+                {is_archived === true ? (
+                  <RiInboxUnarchiveFill />
+                ) : (
+                  <FiArchive />
+                )}
               </button>
               <button onClick={() => toggleDetails()}>
                 {showDetails === true ? <FiMinus /> : <FiMoreHorizontal />}

@@ -1,0 +1,42 @@
+.menu {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 2rem;
+  color: rgb(9, 104, 2);
+}
+
+.menu-item {
+  padding: .5rem;
+  margin: .2rem;
+  border-radius: .5rem .5rem 0rem 0rem;
+  border: 1.5px solid transparent;
+  font-size: 1rem;
+}
+
+
+.unselected:hover {
+  cursor: pointer;
+  box-shadow: 0rem 0rem .3rem .1rem rgba(9, 104, 2, 0.481);
+}
+
+
+.selected {
+  background-color: rgb(42, 196, 31);
+  font-weight: 500;
+  color: #333333;
+  animation: .5s spin ease-in-out
+}
+
+@keyframes spin {
+  50% {
+    background-color: rgb(180, 219, 177);
+  }
+  100% {
+    transform: rotate3d(0, 1, 0, 360deg);
+  }
+  
+}
+
+.selected:hover {
+   cursor: default;
+}

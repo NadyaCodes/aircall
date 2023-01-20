@@ -1,15 +1,16 @@
 .loading {
-  color: RGB(42, 196, 31);
+  color: rgb(42, 196, 31);
   background-color: transparent;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
-
+  height: 2.1rem;
+  margin: 0;
 }
 
 .loading-block {
-  background-color: rgb(162, 162, 162);
+  background-color: rgb(195, 193, 193);
 }
 
 .loading-text {
@@ -18,6 +19,11 @@ color: #333333;
 
 .loading-text-large {
   font-size: 3rem;
+}
+
+.loading-text-small {
+  margin-top: .1rem;
+  font-size: .5rem;
 }
 
 .loading-large {
@@ -30,26 +36,23 @@ color: #333333;
 
 
 .loading-circle-small {
-  font-size: 2rem
-  }
-  
-  
-.loading-circle-large {
-  font-size: 8rem;
-  margin: 2rem;
+  font-size: 2rem;
 }
+  
+
+
 
 .loading-circle {
-  animation: 1s rotate infinite linear
+  animation: 1s rotate infinite linear;
 }
 
 @keyframes rotate {
-  to {
+  100% {
     transform: rotate(360deg);
   }
 }
 @-webkit-keyframes rotate {
-  to {
+  100% {
     transform: rotate(360deg);
   }
 }
@@ -80,4 +83,9 @@ animation: 1s blink infinite linear
   100% {
     opacity: 100%;
   }
+}
+
+.loading-circle-large {
+  font-size: 8rem;
+  margin: 2rem;
 }

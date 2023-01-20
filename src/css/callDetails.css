@@ -1,5 +1,18 @@
+h2 {
+  font-size: 1rem;
+}
+
 .call-details {
-  border: 1px solid black;
+  box-shadow: -.05rem 0.05rem .2rem .02rem #333333;;
+  border-radius: .25rem;
   padding: .5rem;
   text-transform: capitalize;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.call-details > hr {
+  width: 150px;
+  margin-left:0;
 }

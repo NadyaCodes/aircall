@@ -18,6 +18,18 @@ ul {
   list-style: none;
 }
 
+button {
+  background-color: transparent;
+  border-radius: .15rem;
+  margin: .2rem;
+  border: 1px solid black;
+}
+
+button:hover {
+  transform: translate(.05rem, -.05rem);
+  box-shadow: -.1rem .1rem .3rem .01rem;
+}
+
 .react-icons {
   margin-top: .2rem;
 }
