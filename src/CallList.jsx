@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Call from "./Call.jsx";
 import Loading from "./Loading.jsx";
 import Menu from "./Menu.jsx";
+import { makeActivityList } from "./helpers.js";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -33,68 +33,19 @@ export default function CallList() {
     fetchActivities();
   }, []);
 
-  const makeActivityList = (activitiesArray, archivedStatus) => {
-    let date;
-    let dateTime;
-    return activitiesArray.map((activity) => {
-      if (activity.is_archived === archivedStatus) {
-        if (!activity.direction) {
-          activity.direction = "direction-unknown";
-        }
+  const allArchived = makeActivityList(
+    allActivities,
+    true,
+    setAllActivities,
+    Url
+  );
 
-        if (!activity.to) {
-          activity.to = "caller-unknown";
-        }
-
-        if (!activity.from) {
-          activity.from = "caller-unknown";
-        }
-
-        if (!activity.call_type) {
-          activity.call_type = "type-unknown";
-        }
-
-        if (!activity.via) {
-          activity.via = "number-unknown";
-        }
-        dateTime = new Date(activity.created_at);
-        if (dateTime.toDateString() === date) {
-          return (
-            <Call
-              callInfo={activity}
-              dateTime={dateTime}
-              activities={allActivities}
-              setActivities={setAllActivities}
-              key={activity.id}
-              Url={Url}
-            />
-          );
-        } else {
-          date = dateTime.toDateString();
-          return (
-            <React.Fragment key={date}>
-              <div className="date">
-                <hr />
-                {date}
-                <hr />
-              </div>
-              <Call
-                callInfo={activity}
-                dateTime={dateTime}
-                activities={allActivities}
-                setActivities={setAllActivities}
-                key={activity.id}
-                Url={Url}
-              />
-            </React.Fragment>
-          );
-        }
-      }
-    });
-  };
-
-  const allArchived = makeActivityList(allActivities, true);
-  const allActives = makeActivityList(allActivities, false);
+  const allActives = makeActivityList(
+    allActivities,
+    false,
+    setAllActivities,
+    Url
+  );
 
   return (
     <div className="container-view">

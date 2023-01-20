@@ -24,67 +24,43 @@ export default function Call(props) {
 
   const archived = is_archived === true ? "archived" : "active";
 
-  const archive = async (id) => {
+  const archive = async (id, is_archived) => {
     setLoading("loading-block");
-    if (is_archived === false) {
-      fetch(Url + `activities/${id}`, {
-        method: "PATCH",
-        body: JSON.stringify({
-          is_archived: true,
-        }),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
-      })
-        .then((response) => {
-          setLoading("not-loading");
-          if (!response.ok) {
-            toast.error(
-              "Error re-setting archive status - please try again or contact Help@WhatShouldIDo.com"
-            );
-          } else {
-            const newActivities = [...activities];
-            const index = newActivities.indexOf(callInfo);
-            newActivities[index].is_archived = true;
-            setActivities(newActivities);
-          }
-        })
-        .catch((err) => {
-          toast.error(
-            "Error re-setting archive status - please try again or contact Help@WhatShouldIDo.com"
-          );
-          setLoading("not-loading");
-        });
+
+    if (is_archived === true) {
+      is_archived = false;
     } else {
-      fetch(Url + `activities/${id}`, {
-        method: "PATCH",
-        body: JSON.stringify({
-          is_archived: false,
-        }),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
-      })
-        .then((response) => {
-          setLoading(false);
-          if (!response.ok) {
-            toast.error(
-              "Error re-setting archive status - please try again or contact Help@WhatShouldIDo.com"
-            );
-          } else {
-            const newActivities = [...activities];
-            const index = newActivities.indexOf(callInfo);
-            newActivities[index].is_archived = false;
-            setActivities(newActivities);
-          }
-        })
-        .catch((err) => {
+      is_archived = true;
+    }
+
+    fetch(Url + `activities/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify({
+        is_archived: is_archived,
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    })
+      .then((response) => {
+        setLoading("not-loading");
+        if (!response.ok) {
           toast.error(
             "Error re-setting archive status - please try again or contact Help@WhatShouldIDo.com"
           );
-          setLoading(false);
-        });
-    }
+        } else {
+          const newActivities = [...activities];
+          const index = newActivities.indexOf(callInfo);
+          newActivities[index].is_archived = is_archived;
+          setActivities(newActivities);
+        }
+      })
+      .catch((err) => {
+        toast.error(
+          "Error re-setting archive status - please try again or contact Help@WhatShouldIDo.com"
+        );
+        setLoading("not-loading");
+      });
   };
 
   const timeObj = formatTime(duration);
@@ -118,8 +94,8 @@ export default function Call(props) {
                 {timeObj.seconds > 0 ? timeObj.seconds : 0}s
               </div>
             </div>
-            <div>
-              <button onClick={() => archive(id)}>
+            <div className="action-buttons">
+              <button onClick={() => archive(id, is_archived)}>
                 {is_archived === true ? (
                   <RiInboxUnarchiveFill />
                 ) : (

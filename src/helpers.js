@@ -1,4 +1,5 @@
 import React from "react";
+import Call from "./Call.jsx";
 import {
   FiPhoneMissed,
   FiPhoneIncoming,
@@ -45,4 +46,69 @@ export function toggleDetails(details, settingFunc) {
     return settingFunc(true);
   }
   return settingFunc(false);
+}
+
+export function makeActivityList(
+  activitiesArray,
+  archivedStatus,
+  setAllArray,
+  url
+) {
+  let date;
+  let dateTime;
+  return activitiesArray.map((activity) => {
+    if (activity.is_archived === archivedStatus) {
+      if (!activity.direction) {
+        activity.direction = "direction-unknown";
+      }
+
+      if (!activity.to) {
+        activity.to = "caller-unknown";
+      }
+
+      if (!activity.from) {
+        activity.from = "caller-unknown";
+      }
+
+      if (!activity.call_type) {
+        activity.call_type = "type-unknown";
+      }
+
+      if (!activity.via) {
+        activity.via = "number-unknown";
+      }
+      dateTime = new Date(activity.created_at);
+      if (dateTime.toDateString() === date) {
+        return (
+          <Call
+            callInfo={activity}
+            dateTime={dateTime}
+            activities={activitiesArray}
+            setActivities={setAllArray}
+            key={activity.id}
+            Url={url}
+          />
+        );
+      } else {
+        date = dateTime.toDateString();
+        return (
+          <React.Fragment key={date}>
+            <div className="date">
+              <hr />
+              {date}
+              <hr />
+            </div>
+            <Call
+              callInfo={activity}
+              dateTime={dateTime}
+              activities={activitiesArray}
+              setActivities={setAllArray}
+              key={activity.id}
+              Url={url}
+            />
+          </React.Fragment>
+        );
+      }
+    }
+  });
 }
